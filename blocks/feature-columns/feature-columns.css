@@ -1,0 +1,61 @@
+main .feature-columns > ul {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+main .feature-columns > ul > li {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  border: 1px solid #dadada;
+  background-color: var(--background-color);
+  padding: 0;
+  min-width: 0;
+}
+
+main .feature-columns .feature-columns-image {
+  line-height: 0;
+}
+
+main .feature-columns .feature-columns-image img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+}
+
+main .feature-columns .feature-columns-body {
+  margin: 0 1rem;
+  font-family: var(--body-font-family);
+  font-size: var(--body-font-size-m);
+  color: var(--text-color);
+}
+
+main .feature-columns .feature-columns-body :first-child {
+  margin-top: 0;
+}
+
+main .feature-columns .feature-columns-body :last-child {
+  margin-bottom: 0;
+}
+
+main .feature-columns .feature-columns-cta {
+  margin: 0 1rem 1rem;
+}
+
+@media (width >= 900px) {
+  main .feature-columns > ul {
+    flex-direction: row;
+    align-items: stretch;
+    gap: 1.5rem;
+  }
+
+  main .feature-columns > ul > li {
+    flex: 1;
+    border: 1px solid #dadada;
+  }
+}
