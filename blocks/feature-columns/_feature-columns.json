@@ -36,10 +36,10 @@
       "id": "feature-column",
       "fields": [
         {
-          "component": "aem-content",
+          "component": "reference",
           "valueType": "string",
           "name": "image",
-          "label": "Image with path",
+          "label": "Image with path -works",
           "validation": {
             "rootPath": "/content/dam/xwalk-demo/"
           }
