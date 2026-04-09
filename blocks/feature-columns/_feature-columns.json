@@ -39,7 +39,7 @@
           "component": "aem-content",
           "valueType": "string",
           "name": "image",
-          "label": "Image",
+          "label": "Image with path",
           "multi": false,
           "validation": {
             "rootPath": "/content/dam/xwalk-demo"
