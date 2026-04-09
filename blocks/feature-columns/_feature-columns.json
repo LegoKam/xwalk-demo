@@ -36,7 +36,7 @@
       "id": "feature-column",
       "fields": [
         {
-          "component": "reference",
+          "component": "aem-content",
           "valueType": "string",
           "name": "image",
           "label": "Image",
