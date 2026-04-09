@@ -42,7 +42,7 @@
           "label": "Image with path",
           "multi": false,
           "validation": {
-            "rootPath": "/content/dam/xwalk-demo"
+            "rootPath": "/content/dam/xwalk-demo/"
           }
         },
         {
