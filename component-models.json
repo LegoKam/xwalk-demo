@@ -183,13 +183,12 @@
     "id": "feature-column",
     "fields": [
       {
-        "component": "reference",
+        "component": "aem-content",
         "valueType": "string",
         "name": "image",
-        "label": "Image",
-        "multi": false,
+        "label": "Image with path",
         "validation": {
-          "rootPath": "/content/dam/xwalk-demo"
+          "rootPath": "/content/dam/xwalk-demo/"
         }
       },
       {
