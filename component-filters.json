@@ -16,6 +16,7 @@
       "cards",
       "columns",
       "feature-columns",
+      "content-columns",
       "fragment"
     ]
   },
@@ -38,6 +39,14 @@
       "image",
       "button",
       "title"
+    ]
+  },
+  {
+    "id": "content-columns",
+    "components": [
+      "column-cta",
+      "column-links",
+      "column-info"
     ]
   },
   {

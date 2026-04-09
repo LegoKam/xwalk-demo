@@ -39,7 +39,7 @@
           "component": "reference",
           "valueType": "string",
           "name": "image",
-          "label": "Image with path -works",
+          "label": "Image",
           "validation": {
             "rootPath": "/content/dam/xwalk-demo/"
           }

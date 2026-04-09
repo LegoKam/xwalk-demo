@@ -180,6 +180,254 @@
     ]
   },
   {
+    "id": "content-columns",
+    "fields": [
+      {
+        "component": "text",
+        "valueType": "number",
+        "name": "columnCount",
+        "label": "Number of columns",
+        "value": "3"
+      },
+      {
+        "component": "multiselect",
+        "name": "classes",
+        "label": "Block style",
+        "valueType": "string",
+        "options": [
+          {
+            "name": "Dark theme",
+            "value": "dark"
+          },
+          {
+            "name": "Gold outline cards",
+            "value": "gold-outline"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "column-cta",
+    "fields": [
+      {
+        "component": "text",
+        "valueType": "number",
+        "name": "columnIndex",
+        "label": "Column (1-based index)"
+      },
+      {
+        "component": "text",
+        "name": "heading",
+        "label": "Title"
+      },
+      {
+        "component": "select",
+        "name": "headingType",
+        "label": "Title level",
+        "options": [
+          {
+            "name": "h2",
+            "value": "h2"
+          },
+          {
+            "name": "h3",
+            "value": "h3"
+          },
+          {
+            "name": "h4",
+            "value": "h4"
+          },
+          {
+            "name": "h5",
+            "value": "h5"
+          },
+          {
+            "name": "h6",
+            "value": "h6"
+          }
+        ]
+      },
+      {
+        "component": "richtext",
+        "name": "text",
+        "label": "Text",
+        "valueType": "string"
+      },
+      {
+        "component": "aem-content",
+        "name": "link",
+        "label": "Button link"
+      },
+      {
+        "component": "text",
+        "name": "linkText",
+        "label": "Button text"
+      },
+      {
+        "component": "text",
+        "name": "linkTitle",
+        "label": "Button title (tooltip)"
+      },
+      {
+        "component": "select",
+        "name": "linkType",
+        "label": "Button style",
+        "options": [
+          {
+            "name": "default",
+            "value": ""
+          },
+          {
+            "name": "primary",
+            "value": "primary"
+          },
+          {
+            "name": "secondary",
+            "value": "secondary"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "column-links",
+    "fields": [
+      {
+        "component": "text",
+        "valueType": "number",
+        "name": "columnIndex",
+        "label": "Column (1-based index)"
+      },
+      {
+        "component": "text",
+        "name": "heading",
+        "label": "List title"
+      },
+      {
+        "component": "select",
+        "name": "headingType",
+        "label": "List title level",
+        "options": [
+          {
+            "name": "h2",
+            "value": "h2"
+          },
+          {
+            "name": "h3",
+            "value": "h3"
+          },
+          {
+            "name": "h4",
+            "value": "h4"
+          },
+          {
+            "name": "h5",
+            "value": "h5"
+          },
+          {
+            "name": "h6",
+            "value": "h6"
+          }
+        ]
+      },
+      {
+        "component": "select",
+        "name": "listStyle",
+        "label": "List style",
+        "options": [
+          {
+            "name": "Primary links",
+            "value": "primary-links"
+          },
+          {
+            "name": "Curated",
+            "value": "curated"
+          }
+        ]
+      },
+      {
+        "component": "container",
+        "name": "links",
+        "label": "Links",
+        "multi": true,
+        "fields": [
+          {
+            "component": "aem-content",
+            "name": "link",
+            "label": "URL"
+          },
+          {
+            "component": "text",
+            "name": "linkText",
+            "label": "Label"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "column-info",
+    "fields": [
+      {
+        "component": "text",
+        "valueType": "number",
+        "name": "columnIndex",
+        "label": "Column (1-based index)"
+      },
+      {
+        "component": "text",
+        "name": "cardTitle",
+        "label": "Card title"
+      },
+      {
+        "component": "select",
+        "name": "cardTitleType",
+        "label": "Card title level",
+        "options": [
+          {
+            "name": "h2",
+            "value": "h2"
+          },
+          {
+            "name": "h3",
+            "value": "h3"
+          },
+          {
+            "name": "h4",
+            "value": "h4"
+          },
+          {
+            "name": "h5",
+            "value": "h5"
+          },
+          {
+            "name": "h6",
+            "value": "h6"
+          }
+        ]
+      },
+      {
+        "component": "container",
+        "name": "rows",
+        "label": "Label / value rows",
+        "multi": true,
+        "fields": [
+          {
+            "component": "text",
+            "name": "label",
+            "label": "Label"
+          },
+          {
+            "component": "text",
+            "name": "value",
+            "label": "Value"
+          }
+        ]
+      }
+    ]
+  },
+  {
     "id": "feature-column",
     "fields": [
       {

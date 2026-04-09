@@ -51,6 +51,7 @@
         "cards",
         "columns",
         "feature-columns",
+        "content-columns",
         "fragment"
       ]
     }
