@@ -40,7 +40,10 @@
           "valueType": "string",
           "name": "image",
           "label": "Image",
-          "multi": false
+          "multi": false,
+          "validation": {
+            "rootPath": "/content/dam/xwalk-demo"
+          }
         },
         {
           "component": "richtext",

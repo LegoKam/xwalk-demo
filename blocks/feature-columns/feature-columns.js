@@ -40,16 +40,18 @@ export default function decorate(block) {
     const cta = document.createElement('p');
     cta.className = 'feature-columns-cta button-container';
 
+    const ctaLabel = label || (existingA?.textContent || '').trim() || 'Learn more';
     if (existingA) {
-      existingA.classList.add('button');
-      if (label) existingA.textContent = label;
+      existingA.classList.add('button', 'feature-columns-cta-btn');
+      existingA.setAttribute('aria-label', ctaLabel);
+      existingA.textContent = '';
       cta.append(existingA);
       if (linkCell !== existingA) linkCell.remove();
     } else {
       const a = document.createElement('a');
-      a.className = 'button';
+      a.className = 'button feature-columns-cta-btn';
       a.href = getLinkHref(linkCell) || '#';
-      a.textContent = label || 'Learn more';
+      a.setAttribute('aria-label', ctaLabel);
       cta.append(a);
       linkCell?.remove();
     }
@@ -59,6 +61,10 @@ export default function decorate(block) {
 
     ul.append(li);
   });
+
+  if (ul.children.length === 4) {
+    ul.classList.add('feature-columns-bento');
+  }
 
   ul.querySelectorAll('picture > img').forEach((img) => {
     const optimizedPic = createOptimizedPicture(img.src, img.alt, false, [{ width: '750' }]);
