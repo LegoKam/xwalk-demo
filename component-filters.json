@@ -36,7 +36,17 @@
   {
     "id": "footer-columns",
     "components": [
-      "column"
+      "footer-column"
+    ]
+  },
+  {
+    "id": "footer-column",
+    "components": [
+      "text",
+      "image",
+      "button",
+      "title",
+      "footer-link-list"
     ]
   },
   {
