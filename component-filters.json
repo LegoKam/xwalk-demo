@@ -45,7 +45,8 @@
       "text",
       "image",
       "button",
-      "title"
+      "title",
+      "footer-link-list"
     ]
   },
   {

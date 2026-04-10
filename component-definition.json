@@ -143,6 +143,21 @@
           }
         },
         {
+          "title": "Footer Link List",
+          "id": "footer-link-list",
+          "plugins": {
+            "xwalk": {
+              "page": {
+                "resourceType": "core/franklin/components/block/v1/block/item",
+                "template": {
+                  "name": "Footer Link List",
+                  "model": "footer-link-list"
+                }
+              }
+            }
+          }
+        },
+        {
           "title": "Content Columns",
           "id": "content-columns",
           "plugins": {

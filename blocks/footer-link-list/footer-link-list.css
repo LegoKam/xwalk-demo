@@ -1,0 +1,9 @@
+.footer-link-list .footer-link-list-inner ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.footer-link-list .footer-link-list-inner li + li {
+  margin-top: 0.35em;
+}

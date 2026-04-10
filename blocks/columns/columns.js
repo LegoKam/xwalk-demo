@@ -1,4 +1,6 @@
-export default function decorate(block) {
+import { decorateBlock, loadBlock } from '../../scripts/aem.js';
+
+export default async function decorate(block) {
   const cols = [...block.firstElementChild.children];
   block.classList.add(`columns-${cols.length}-cols`);
 
@@ -15,4 +17,10 @@ export default function decorate(block) {
       }
     });
   });
+
+  block.querySelectorAll(':scope div.footer-link-list').forEach((el) => {
+    if (!el.classList.contains('block')) decorateBlock(el);
+  });
+  const nested = [...block.querySelectorAll(':scope div.footer-link-list.block')];
+  await Promise.all(nested.map((b) => loadBlock(b)));
 }
