@@ -1,9 +1,38 @@
-main .footer-link-list .footer-link-list-inner ul {
-  list-style: none;
-  margin: 0;
+/* Hero-aligned layout; classes mirror hero.css but scoped to footer-link-list block. */
+.footer-link-list-container .footer-link-list-wrapper {
+  max-width: unset;
   padding: 0;
 }
 
-main .footer-link-list .footer-link-list-inner li + li {
-  margin-top: 0.35em;
+.footer-link-list {
+  position: relative;
+  padding: 40px 24px;
+  min-height: 300px;
+}
+
+.footer-link-list h1 {
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
+  color: var(--background-color);
+}
+
+.footer-link-list picture {
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  object-fit: cover;
+  box-sizing: border-box;
+}
+
+.footer-link-list img {
+  object-fit: cover;
+  width: 100%;
+  height: 100%;
+}
+
+@media (width >= 900px) {
+  .footer-link-list {
+    padding: 40px 32px;
+  }
 }

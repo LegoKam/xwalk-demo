@@ -51,6 +51,7 @@
         "cards",
         "columns",
         "footer-columns",
+        "footer-link-list",
         "feature-columns",
         "fragment"
       ]
