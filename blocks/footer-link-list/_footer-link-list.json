@@ -57,6 +57,30 @@
               "value": "h6"
             }
           ]
+        },
+        {
+          "component": "container",
+          "name": "links",
+          "label": "Links",
+          "description": "Each entry: URL + Label + optional Link title (field collapse to one anchor).",
+          "multi": true,
+          "fields": [
+            {
+              "component": "aem-content",
+              "name": "link",
+              "label": "URL"
+            },
+            {
+              "component": "text",
+              "name": "linkText",
+              "label": "Label"
+            },
+            {
+              "component": "text",
+              "name": "linkTitle",
+              "label": "Link title (optional)"
+            }
+          ]
         }
       ]
     }
