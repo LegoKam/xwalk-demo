@@ -1,265 +1,146 @@
-import { moveInstrumentation } from '../../scripts/scripts.js';
+const COPY_ICON = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>`;
 
 /**
- * Parse block style tokens from the config row (multiselect → comma-separated text).
- * @param {string} raw
- * @returns {string[]}
+ * @param {string} text
  */
-function parseClassTokens(raw) {
-  if (!raw) return [];
-  return raw
-    .split(/[,\s]+/)
-    .map((s) => s.trim())
-    .filter(Boolean);
+async function copyToClipboard(text) {
+  try {
+    await navigator.clipboard.writeText(text);
+  } catch {
+    /* execCommand fallback for insecure contexts */
+    const ta = document.createElement('textarea');
+    ta.value = text;
+    ta.setAttribute('readonly', '');
+    ta.style.position = 'absolute';
+    ta.style.left = '-9999px';
+    document.body.append(ta);
+    ta.select();
+    document.execCommand('copy');
+    ta.remove();
+  }
 }
 
 /**
  * @param {Element} row
- * @returns {number}
+ * @returns {'links'|'info'|'cta'}
  */
-function getColumnIndex(row) {
-  const first = row.children[0];
-  const n = parseInt(first?.textContent?.trim() ?? '', 10);
-  return Number.isFinite(n) ? n : NaN;
-}
-
-/**
- * @param {Element} card
- */
-function decorateCtaCard(card) {
-  card.classList.add('content-columns-card--cta');
-  card.children[0]?.remove();
-  const wrap = document.createElement('div');
-  wrap.className = 'content-columns-card-inner';
-  while (card.firstChild) wrap.append(card.firstChild);
-  card.append(wrap);
-
-  const btn = wrap.querySelector('a[href]');
-  if (btn) {
-    btn.classList.add('content-columns-cta-btn');
-    const icon = document.createElement('span');
-    icon.className = 'content-columns-cta-icon';
-    icon.setAttribute('aria-hidden', 'true');
-    btn.append(icon);
-    const ctaHost = btn.closest('p') || btn;
-    ctaHost.classList.add('content-columns-cta-wrap');
+function classifyRow(row) {
+  if (row.querySelector('ul a[href]')) {
+    return 'links';
   }
-}
-
-/**
- * @param {Element} card
- */
-function decorateLinksCard(card) {
-  card.classList.add('content-columns-card--links');
-  const cells = [...card.children];
-  let styleRaw = '';
-  const ulCell = cells.find((c) => c.querySelector('ul'));
-  cells.forEach((c) => {
-    if (c === ulCell) return;
-    const t = c.textContent?.trim() ?? '';
-    if (!c.querySelector('ul') && !c.querySelector('h1, h2, h3, h4, h5, h6') && (t === 'primary-links' || t === 'curated')) {
-      styleRaw = t;
-    }
-  });
-  if (!styleRaw) {
-    const last = cells[cells.length - 1];
-    const t = last?.textContent?.trim() ?? '';
-    if (t === 'primary-links' || t === 'curated') styleRaw = t;
-  }
-
-  if (styleRaw === 'primary-links') {
-    card.classList.add('content-columns-card--links-primary');
-  } else {
-    card.classList.add('content-columns-card--links-curated');
-  }
-
-  card.children[0]?.remove();
-  const wrap = document.createElement('div');
-  wrap.className = 'content-columns-card-inner';
-  const remaining = [...card.children];
-  remaining.forEach((cell) => {
-    const t = cell.textContent?.trim() ?? '';
-    if (!cell.querySelector('ul') && (t === 'primary-links' || t === 'curated')) {
-      cell.remove();
-      return;
-    }
-    wrap.append(cell);
-  });
-  card.append(wrap);
-
-  let nav = wrap.querySelector('ul');
-  if (!nav && wrap.querySelector('a[href]')) {
-    const orphanA = wrap.querySelector('a[href]');
-    if (orphanA) {
-      nav = document.createElement('ul');
-      const li = document.createElement('li');
-      li.append(orphanA);
-      nav.append(li);
-      wrap.append(nav);
-    }
-  }
-  if (nav) nav.classList.add('content-columns-link-list');
-}
-
-/**
- * @param {Element} card
- */
-function decorateInfoCard(card) {
-  card.classList.add('content-columns-card--info');
-  card.children[0]?.remove();
-  const wrap = document.createElement('div');
-  wrap.className = 'content-columns-card-inner';
-  while (card.firstChild) wrap.append(card.firstChild);
-  card.append(wrap);
-
-  const titleEl = wrap.querySelector('h2, h3, h4, h5, h6');
-  if (titleEl) titleEl.classList.add('content-columns-info-heading');
-
-  wrap.querySelectorAll('ul > li').forEach((li) => {
-    li.classList.add('content-columns-info-row');
-    const divs = [...li.children].filter((el) => el.tagName === 'DIV');
-    let labelEl;
-    let valueEl;
-    if (divs.length >= 2) {
-      [labelEl, valueEl] = divs;
-    } else {
-      const text = li.textContent || '';
-      const sep = text.indexOf(':');
-      if (sep > -1) {
-        labelEl = document.createElement('span');
-        labelEl.className = 'content-columns-info-label';
-        labelEl.textContent = `${text.slice(0, sep).trim()}:`;
-        valueEl = document.createElement('span');
-        valueEl.className = 'content-columns-info-value';
-        valueEl.textContent = text.slice(sep + 1).trim();
-        li.textContent = '';
-        li.append(labelEl, valueEl);
-      }
-    }
-
-    if (labelEl && !labelEl.classList.contains('content-columns-info-label')) {
-      labelEl.classList.add('content-columns-info-label');
-    }
-    if (valueEl && !valueEl.classList.contains('content-columns-info-value')) {
-      valueEl.classList.add('content-columns-info-value');
-    }
-
-    const valueNode = valueEl || li.querySelector('.content-columns-info-value');
-    const copyVal = (valueNode?.textContent ?? '').trim();
-    if (valueNode && copyVal) {
-      const btn = document.createElement('button');
-      btn.type = 'button';
-      btn.className = 'content-columns-copy';
-      btn.setAttribute('data-copy-value', copyVal);
-      btn.setAttribute('aria-label', `Copy ${copyVal}`);
-      btn.innerHTML = '<span class="content-columns-copy-icon" aria-hidden="true"></span>';
-      btn.addEventListener('click', async () => {
-        try {
-          await navigator.clipboard.writeText(copyVal);
-          btn.classList.add('content-columns-copy--done');
-          setTimeout(() => btn.classList.remove('content-columns-copy--done'), 2000);
-        } catch (e) {
-          /* clipboard may be unavailable */
-        }
-      });
-      valueNode.after(btn);
-    }
-  });
-}
-
-/**
- * Guess segment layout from delivered cells (CTA vs links vs info).
- * @param {Element} row
- * @returns {'cta' | 'links' | 'info'}
- */
-function classifySegment(row) {
   const cells = [...row.children];
-  const body = cells.slice(1);
-
-  const styleHint = body.some((c) => {
-    const t = c.textContent?.trim() ?? '';
-    return t === 'primary-links' || t === 'curated';
-  });
-
-  const linkListCell = body.find((c) => {
-    const ul = c.querySelector('ul');
-    if (!ul) return false;
-    const lis = [...ul.querySelectorAll('li')];
-    return lis.length > 0 && lis.every((li) => li.querySelector('a[href]'));
-  });
-  if (linkListCell || styleHint) return 'links';
-
-  const hasHeading = body.some((c) => c.querySelector('h2, h3, h4, h5, h6'));
-  const hasList = body.some((c) => c.querySelector('ul > li'));
-  if (hasHeading && hasList) return 'info';
-
+  const third = cells[2];
+  if (third && third.querySelector('ul > li') && !third.querySelector('ul a[href]')) {
+    return 'info';
+  }
   return 'cta';
 }
 
 /**
- * @param {Element} card
- * @param {'cta' | 'links' | 'info'} kind
+ * @param {Element} row
  */
-function decorateSegmentCard(card, kind) {
-  if (kind === 'links') decorateLinksCard(card);
-  else if (kind === 'info') decorateInfoCard(card);
-  else decorateCtaCard(card);
+function enhanceInfoRow(row) {
+  const kind = classifyRow(row);
+  if (kind !== 'info') return;
+
+  const cells = [...row.children];
+  const valueCell = cells[2] || cells[cells.length - 1];
+  if (!valueCell) return;
+
+  valueCell.querySelectorAll('ul > li').forEach((li) => {
+    const valueEl = li.querySelector('p:last-of-type') || li;
+    const text = (valueEl.textContent || '').trim();
+    if (!text || li.querySelector('.content-columns-copy')) return;
+
+    const wrap = document.createElement('span');
+    wrap.className = 'content-columns-info-value';
+    while (valueEl.firstChild) wrap.append(valueEl.firstChild);
+    valueEl.append(wrap);
+
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'content-columns-copy';
+    btn.setAttribute('aria-label', 'Copy value to clipboard');
+    btn.innerHTML = COPY_ICON;
+    btn.addEventListener('click', () => copyToClipboard(text));
+    wrap.append(btn);
+  });
 }
 
 /**
- * decorate the Content Columns block — config row, then column segments stacked per index.
- * @param {Element} block the block
+ * @param {Element} block
  */
-export default async function decorate(block) {
+function applyBlockOptions(block) {
+  const first = block.firstElementChild;
+  if (!first) return;
+
+  const cells = [...first.children];
+  const countRaw = (cells[0]?.textContent || '').trim();
+  const n = parseInt(countRaw, 10);
+  const columnCount = Number.isFinite(n) && n > 0 ? Math.min(n, 12) : 5;
+  block.style.setProperty('--content-columns-count', String(columnCount));
+
+  const classesCell = (cells[1]?.textContent || '').trim();
+  if (classesCell) {
+    classesCell.split(/[\s,]+/).filter(Boolean).forEach((c) => {
+      block.classList.add(c);
+    });
+  }
+}
+
+/**
+ * @param {Element} block
+ */
+export default function decorate(block) {
+  applyBlockOptions(block);
+
   const rows = [...block.children];
-  if (!rows.length) return;
-
-  const configRow = rows[0];
-  const columnCountRaw = configRow.children[0]?.textContent?.trim() ?? '1';
-  let columnCount = parseInt(columnCountRaw, 10);
-  if (!Number.isFinite(columnCount) || columnCount < 1) columnCount = 1;
-  if (columnCount > 12) columnCount = 12;
-
-  const styleCell = configRow.children[1];
-  if (styleCell) {
-    parseClassTokens(styleCell.textContent ?? '').forEach((c) => block.classList.add(c));
+  if (rows.length <= 1) {
+    block.classList.add('content-columns-grid');
+    return;
   }
 
-  block.style.setProperty('--content-columns-cols', String(columnCount));
+  const itemRows = rows.slice(1);
+  const columnCount = parseInt(
+    getComputedStyle(block).getPropertyValue('--content-columns-count') || '5',
+    10,
+  ) || 5;
 
-  const segmentRows = rows.slice(1);
-  const columns = Array.from({ length: columnCount }, () => []);
+  /** @type {Element[][]} */
+  const cols = Array.from({ length: columnCount }, () => []);
 
-  segmentRows.forEach((row) => {
-    const colIdx = getColumnIndex(row);
-    if (!Number.isFinite(colIdx) || colIdx < 1 || colIdx > columnCount) return;
-    columns[colIdx - 1].push(row);
+  itemRows.forEach((row) => {
+    const idxCell = row.firstElementChild;
+    const colIdx = parseInt((idxCell?.textContent || '').trim(), 10);
+    const target = Number.isFinite(colIdx) && colIdx >= 1 && colIdx <= columnCount
+      ? colIdx - 1
+      : 0;
+    cols[target].push(row);
   });
 
   const grid = document.createElement('div');
   grid.className = 'content-columns-grid';
 
-  columns.forEach((colRows) => {
+  cols.forEach((stack, i) => {
     const col = document.createElement('div');
     col.className = 'content-columns-col';
-    const stack = document.createElement('div');
-    stack.className = 'content-columns-stack';
+    col.dataset.colIndex = String(i + 1);
 
-    if (colRows.length === 1) {
-      stack.classList.add('content-columns-stack--single');
-    }
-
-    colRows.forEach((row) => {
-      const kind = classifySegment(row);
-      const card = document.createElement('div');
-      card.className = 'content-columns-card';
-      moveInstrumentation(row, card);
-      while (row.firstChild) card.append(row.firstChild);
-      decorateSegmentCard(card, kind);
-      stack.append(card);
+    stack.forEach((row) => {
+      const kind = classifyRow(row);
+      row.classList.add(
+        'content-columns-stack-item',
+        kind === 'links' ? 'content-columns-links' : kind === 'info' ? 'content-columns-info' : 'content-columns-cta',
+      );
+      if (kind === 'links') {
+        const styleText = (row.children[2]?.textContent || '').trim();
+        if (styleText === 'primary-links') row.classList.add('is-primary-links');
+        if (styleText === 'curated') row.classList.add('is-curated');
+      }
+      enhanceInfoRow(row);
+      col.append(row);
     });
 
-    col.append(stack);
     grid.append(col);
   });
 

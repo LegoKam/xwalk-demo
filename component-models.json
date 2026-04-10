@@ -187,7 +187,7 @@
         "valueType": "number",
         "name": "columnCount",
         "label": "Number of columns",
-        "value": "3"
+        "value": "5"
       },
       {
         "component": "multiselect",
@@ -218,12 +218,12 @@
       },
       {
         "component": "text",
-        "name": "heading",
+        "name": "cta_title",
         "label": "Title"
       },
       {
         "component": "select",
-        "name": "headingType",
+        "name": "cta_titleType",
         "label": "Title level",
         "options": [
           {
@@ -250,28 +250,28 @@
       },
       {
         "component": "richtext",
-        "name": "text",
+        "name": "cta_body",
         "label": "Text",
         "valueType": "string"
       },
       {
         "component": "aem-content",
-        "name": "link",
+        "name": "cta_link",
         "label": "Button link"
       },
       {
         "component": "text",
-        "name": "linkText",
+        "name": "cta_linkText",
         "label": "Button text"
       },
       {
         "component": "text",
-        "name": "linkTitle",
+        "name": "cta_linkTitle",
         "label": "Button title (tooltip)"
       },
       {
         "component": "select",
-        "name": "linkType",
+        "name": "cta_linkType",
         "label": "Button style",
         "options": [
           {
@@ -301,12 +301,12 @@
       },
       {
         "component": "text",
-        "name": "heading",
+        "name": "list_title",
         "label": "List title"
       },
       {
         "component": "select",
-        "name": "headingType",
+        "name": "list_titleType",
         "label": "List title level",
         "options": [
           {
@@ -377,12 +377,12 @@
       },
       {
         "component": "text",
-        "name": "cardTitle",
+        "name": "card_title",
         "label": "Card title"
       },
       {
         "component": "select",
-        "name": "cardTitleType",
+        "name": "card_titleType",
         "label": "Card title level",
         "options": [
           {
@@ -434,7 +434,7 @@
         "component": "reference",
         "valueType": "string",
         "name": "image",
-        "label": "Image with path -works",
+        "label": "Image",
         "validation": {
           "rootPath": "/content/dam/xwalk-demo/"
         }
