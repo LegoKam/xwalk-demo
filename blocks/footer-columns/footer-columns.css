@@ -1,0 +1,33 @@
+.footer-columns > div {
+  display: flex;
+  flex-direction: column;
+}
+
+.footer-columns img {
+  width: 100%;
+}
+
+.footer-columns > div > div {
+  order: 1;
+}
+
+.footer-columns > div > .footer-columns-img-col {
+  order: 0;
+}
+
+.footer-columns > div > .footer-columns-img-col img {
+  display: block;
+}
+
+@media (width >= 900px) {
+  .footer-columns > div {
+    align-items: center;
+    flex-direction: unset;
+    gap: 24px;
+  }
+
+  .footer-columns > div > div {
+    flex: 1;
+    order: unset;
+  }
+}

@@ -50,8 +50,8 @@
         "hero",
         "cards",
         "columns",
+        "footer-columns",
         "feature-columns",
-        "content-columns",
         "fragment"
       ]
     }

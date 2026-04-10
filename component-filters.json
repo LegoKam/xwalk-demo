@@ -15,6 +15,7 @@
       "hero",
       "cards",
       "columns",
+      "footer-columns",
       "feature-columns",
       "content-columns",
       "fragment"
@@ -28,6 +29,12 @@
   },
   {
     "id": "columns",
+    "components": [
+      "column"
+    ]
+  },
+  {
+    "id": "footer-columns",
     "components": [
       "column"
     ]

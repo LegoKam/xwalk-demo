@@ -128,6 +128,21 @@
           }
         },
         {
+          "title": "Footer Columns",
+          "id": "footer-columns",
+          "plugins": {
+            "xwalk": {
+              "page": {
+                "resourceType": "core/franklin/components/columns/v1/columns",
+                "template": {
+                  "columns": "2",
+                  "rows": "1"
+                }
+              }
+            }
+          }
+        },
+        {
           "title": "Content Columns",
           "id": "content-columns",
           "plugins": {
