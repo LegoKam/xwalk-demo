@@ -3,6 +3,14 @@
  * @param {Element} block
  */
 export default function decorate(block) {
+  block.querySelectorAll('span.icon.icon-nw').forEach((span) => {
+    const a = span.closest('a');
+    if (a) {
+      a.target = '_blank';
+      a.rel = 'noopener noreferrer';
+    }
+    span.remove();
+  });
   block.querySelectorAll('span.icon.icon-copy').forEach((icon) => {
     icon.addEventListener('click', () => {
       const p = icon.closest('p');
