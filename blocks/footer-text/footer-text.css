@@ -14,8 +14,3 @@ main .footer-text p {
 main .footer-text p + p {
   margin-block-start: 0.75rem;
 }
-
-main .footer-text span.icon.icon-copy {
-  cursor: pointer;
-  vertical-align: middle;
-}
