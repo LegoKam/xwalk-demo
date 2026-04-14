@@ -1,0 +1,16 @@
+main .footer-text {
+  box-sizing: border-box;
+  border: 2px solid var(--text-color);
+  padding: 1rem;
+  color: var(--text-color);
+}
+
+main .footer-text p {
+  font-family: var(--body-font-family);
+  font-size: var(--body-font-size-m);
+  margin: 0;
+}
+
+main .footer-text p + p {
+  margin-block-start: 0.75rem;
+}
